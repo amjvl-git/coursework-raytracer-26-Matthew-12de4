@@ -15,23 +15,44 @@ export class Vec3
     }
 
     // Subtract other vector from this one and return the result
-    minus(other){}
+    minus(other)
+    {
+        return new Vec3(this.x - other.x, this.y - other.y, thisz - other.z)
+    }
 
     // Multiply other vector by this one and return the result
-    multiply(other){}
+    multiply(other)
+    {
+        return new Vec3(this.x * other.x, this.y * other.y, thisz * other.z)
+    }
 
     // Scale this vector by the number scalar and return the result
-    scale(scalar){}
+    scale(scalar)
+    {
+        return new Vec3(this.x * scalar, this.y * scalar, this.z * scalar)
+    }
     
     // Calculate the dot product of this vector with the other and return the result
-    dot(other) {}
+    dot(other)
+    {
+        return new Vec3((this.x * other.x) + (this.y * other.y) + (this.z * other.z))
+    }
 
     // Calculate and return the magnitude of this vector
-    magnitude() {}
+    magnitude()
+    {
+        return new Vec3(Math.sqrt((this.x **2) + (this.y **2) + (this.z **2)))
+    }
     
     // Calculate and return the magnitude of this vector without the square root
-    magnitudeSquared() {}
+    magnitudeSquared()
+    {
+        return new Vec3((this.x **2) + (this.y **2) + (this.z **2))
+    }
 
     // Return a normalised version of this vector
-    normalised() {}
+    normalised()
+    {
+        return this.scale(1 / this.magnitude())
+    }
 }
