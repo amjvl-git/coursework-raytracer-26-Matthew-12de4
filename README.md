@@ -1,4 +1,5 @@
-[![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-2e0aaae1b6195c2367325f4f02e2d04e9abb55f0b24a779b69b11b9e10269abc.svg)](https://classroom.github.com/online_ide?assignment_repo_id=22987987&assignment_repo_type=AssignmentRepo)
+[![Open Coursework Submission](https://learningzone.dmu.ac.uk/d2l/lp/navbars/6606/theme/viewimage/11952376/view?v=20.26.2.23096)](https://learningzone.dmu.ac.uk/d2l/lms/dropbox/user/folder_submit_files.d2l?db=81729&grpid=0&isprv=0&bp=0&ou=971240)
 # GAMR1530 Coursework 2026
-You are to build a ray tracer in JavaScript which uses the Phong Lighting model.
-This repo will be your submission.
+## Matthew Jennings
+### JavaScript Ray Tracer
+
