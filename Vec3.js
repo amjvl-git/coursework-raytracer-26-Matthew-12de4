@@ -17,7 +17,7 @@ export class Vec3
     // Subtract other vector from this one and return the result
     minus(other)
     {
-        return new Vec3(this.x - other.x, this.y - other.y, thisz - other.z)
+        return new Vec3(this.x - other.x, this.y - other.y, this.z - other.z)
     }
 
     // Multiply other vector by this one and return the result

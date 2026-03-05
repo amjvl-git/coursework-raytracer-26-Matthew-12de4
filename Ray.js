@@ -11,11 +11,7 @@ export class Ray
     // Calculate and return the point in space (a Vec3) for this ray for the given value of t
     pointAt(t)
     {
-        let px = (1 - t) * this.origin.x + (t * this.direction.x)
-        let py = (1 - t) * this.origin.y + (t * this.direction.y)
-        let pz = (1 - t) * this.origin.z + (t * this.direction.z)
-        return new Vec3(px,py,pz)
-        
+        return this.origin.add((this.direction.scale(t)))
     }
 }
 
@@ -53,7 +49,11 @@ export function traceRay(ray)
 // Calculate and return the background colour based on the ray
 export function backgroundColour(ray)
 {
-        return new Vec3(0.3,0.5,0.9) // Blue
+    let white = new Vec3(1, 1, 1)
+    let blue = new Vec3(0.3, 0.5, 0.9)
+    let t = 0.5 * (ray.direction.y + 1.0)
+    console.log(white.scale(1-t).add(blue.scale(t)));
+    return (white.scale(1-t).add(blue.scale(t)))
 }
 
 // Returns the colour the ray should have as a Vec3 with RGB values in [0,1]
