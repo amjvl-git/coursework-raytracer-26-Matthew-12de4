@@ -14,6 +14,10 @@ let aspectRatio = document.getElementById("canvas").height / document.getElement
 
 let colour = new Vec3(255,0,0) //RGB
 
+let ray = new Ray(new Vec3(10, 10, 10),new Vec3(20, 20, 20))
+console.log(ray.pointAt(0.5));
+
+
 for (let i = 0; i < imageWidth; i++)
 {
     for (let j = 0; j <= imageHeight; j++)

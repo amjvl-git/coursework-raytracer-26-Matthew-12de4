@@ -9,7 +9,14 @@ export class Ray
     }
 
     // Calculate and return the point in space (a Vec3) for this ray for the given value of t
-    pointAt(t) {}
+    pointAt(t)
+    {
+        let px = (1 - t) * this.origin.x + (t * this.direction.x)
+        let py = (1 - t) * this.origin.y + (t * this.direction.y)
+        let pz = (1 - t) * this.origin.z + (t * this.direction.z)
+        return new Vec3(px,py,pz)
+        
+    }
 }
 
 // The result of casting a ray into our scene
