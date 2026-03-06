@@ -1,4 +1,5 @@
 import { Vec3 } from './Vec3.js'
+import { spheres } from './Main.js'
 // Ray which has an origin and direction, both are Vec3s
 export class Ray
 {
@@ -32,7 +33,12 @@ export class RayCastResult
 }
 
 // Calculate the intersection point and normal when a ray hits a sphere. Returns a RayCastResult.
-export function hit(ray, t, sphereIndex) {}
+export function hit(ray, t, sphereIndex)
+{
+    let intersectPo = ray.pointAt(t)
+    let intersectNorm = intersectPo.minus(spheres[sphereIndex].centre).normalised()
+    return new RayCastResult(intersectPo, intersectNorm, t, sphereIndex)
+}
 
 // Return a RayCastResult when a ray misses everything in the scene
 export function miss()
@@ -43,7 +49,10 @@ export function miss()
 // Check whether a ray hits anything in the scene and return a RayCast Result
 export function traceRay(ray)
 {
-    return miss()
+    let sphere = spheres[0]
+    let t = sphere.rayIntersects(ray)
+    if (t<0) return miss()
+    else return hit(ray,t, 0)
 }
 
 // Calculate and return the background colour based on the ray
