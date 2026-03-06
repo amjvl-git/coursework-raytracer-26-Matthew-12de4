@@ -34,9 +34,10 @@ for (let i = 0; i < imageWidth; i++)
 
         let u = i / (imageWidth - 1)
         let v = j / (imageHeight - 1)
+        
+        dir.y = v
+        console.log(dir.y);
 
-        colour = colour.scale(v)
-        console.log(colour, v);
         colour = colour.scale(255)
         
         setPixel(i,j,colour)
