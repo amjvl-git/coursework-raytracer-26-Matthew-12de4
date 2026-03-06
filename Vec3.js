@@ -23,7 +23,7 @@ export class Vec3
     // Multiply other vector by this one and return the result
     multiply(other)
     {
-        return new Vec3(this.x * other.x, this.y * other.y, thisz * other.z)
+        return new Vec3(this.x * other.x, this.y * other.y, this.z * other.z)
     }
 
     // Scale this vector by the number scalar and return the result

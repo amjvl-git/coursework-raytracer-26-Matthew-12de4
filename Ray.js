@@ -53,7 +53,8 @@ export function backgroundColour(ray)
     let blue = new Vec3(0.3, 0.5, 0.9)
     let t = 0.5 * (ray.direction.y + 1.0)
     console.log(white.scale(1-t).add(blue.scale(t)));
-    return (white.scale(1-t).add(blue.scale(t)))
+    //return blue
+    return white.scale(1-t).add(blue.scale(t))
 }
 
 // Returns the colour the ray should have as a Vec3 with RGB values in [0,1]

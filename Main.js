@@ -21,22 +21,24 @@ let horizontal = new Vec3(viewportWidth, 0, 0)
 let vertical = new Vec3(0, viewportHeight, 0)
 let lowerLeftCorner = camPosition.minus(horizontal.scale(0.5)).minus(vertical.scale(0.5)).minus(new Vec3(0, 0, focalLength))
 //console.log(camPosition, horizontal, vertical, lowerLeftCorner);
-
-let Ry = new Ray(new Vec3(10, 10, 10), new Vec3(20, 20, 20))
-let colour = new Vec3(0, 0, 0)
-colour = colour.add(backgroundColour(Ry)) //RGB
-
-console.log(colour);
+let or = new Vec3(0, 0, 0)
+let dir = new Vec3(0.2, 1, 0.5)
+let Ry = new Ray(or, dir)
 
 
 for (let i = 0; i < imageWidth; i++)
 {
     for (let j = 0; j <= imageHeight; j++)
     {
+        let colour = rayColour(Ry)
+
         let u = i / (imageWidth - 1)
         let v = j / (imageHeight - 1)
-        colour.x = u * 255
-        colour.y = v * 255
+
+        colour = colour.scale(v)
+        console.log(colour, v);
+        colour = colour.scale(255)
+        
         setPixel(i,j,colour)
     }
 }
