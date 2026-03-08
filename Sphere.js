@@ -23,7 +23,7 @@ export class Sphere
         let discrim = (b**2)-4*a*c
         
         if (discrim > 0) {
-            return (-b-Math.sqrt(b**2 - 4*a*c))/2*a
+            return ((-b)-Math.sqrt(b**2 - 4*a*c))/(2*a)
         }
         else {
             return -1

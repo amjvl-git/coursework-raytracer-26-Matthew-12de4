@@ -10,12 +10,15 @@ let aspectRatio = document.getElementById("canvas").height / document.getElement
 let viewportWidth = 2
 let viewportHeight = viewportWidth * aspectRatio
 let focalLength = 1.0
+let samples = 50
 
-let camPosition = new Vec3(0, 0, 0)
+export let camPosition = new Vec3(0, 0, 0)
 let horizontal = new Vec3(viewportWidth, 0, 0)
 let vertical = new Vec3(0, viewportHeight, 0)
 let lowerLeftCorner = camPosition.minus(horizontal.scale(0.5)).minus(vertical.scale(0.5)).minus(new Vec3(0, 0, focalLength))
-//console.log(camPosition, horizontal, vertical, lowerLeftCorner);
+
+export let lightDirection = new Vec3(-1.1, -1.3, -1.5).normalised()
+export let negLightDirection = new Vec3(-lightDirection.x, -lightDirection.y, -lightDirection.z)
 
 export const spheres = new Array(
     new Sphere(new Vec3(0,0,-1), 0.3, new Vec3(1,0,0)),       // Red sphere
@@ -23,18 +26,28 @@ export const spheres = new Array(
     new Sphere(new Vec3(0,-100.5,-1), 100, new Vec3(0,1,0))   // Big green sphere
 );
 
+let pseudo = Math.random()
+
 for (let i = 0; i < imageWidth; i++)
 {
     for (let j = 0; j <= imageHeight; j++)
     {
-        
-        let u = i / (imageWidth - 1)
-        let v = j / (imageHeight - 1)
-        
-        let dir = lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition)
-        let ray = new Ray(camPosition, dir)
-        let colour = rayColour(ray).scale(255)
-        
+        let colour = new Vec3(0, 0, 0)
+        for (let k = 0; k < samples; k++){
+            let u = i / (imageWidth - 1)
+            let v = j / (imageHeight - 1)
+            
+            let dir = lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition)
+            dir = dir.add(new Vec3(pseudo/imageWidth, pseudo/imageHeight, 0))
+            let ray = new Ray(camPosition, dir)
+    
+            colour = colour.add(rayColour(ray))
+        }
+
+        colour = colour.scale(1/samples)
+        let gammaCor = new Vec3(Math.pow(colour.x,1/(2.2)), Math.pow(colour.y,1/(2.2)), Math.pow(colour.z,1/(2.2)))
+        colour = gammaCor.scale(255)
+
         setPixel(i,j,colour)
     }
 }
