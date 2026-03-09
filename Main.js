@@ -1,6 +1,6 @@
 import { Vec3 } from './Vec3.js'
 import { Sphere } from './Sphere.js'
-import { Ray, RayCastResult, hit, miss, traceRay, backgroundColour, rayColour, setPixel } from './Ray.js'
+import { Ray, rayColour, setPixel } from './Ray.js'
 
 // Main code
 let imageWidth = document.getElementById("canvas").width
@@ -20,10 +20,14 @@ let lowerLeftCorner = camPosition.minus(horizontal.scale(0.5)).minus(vertical.sc
 export let lightDirection = new Vec3(-1.1, -1.3, -1.5).normalised()
 export let negLightDirection = new Vec3(-lightDirection.x, -lightDirection.y, -lightDirection.z)
 
+export let specIntensity = 4
+export let shadowIntensity = 0.4
+
 export const spheres = new Array(
     new Sphere(new Vec3(0,0,-1), 0.3, new Vec3(1,0,0)),       // Red sphere
     new Sphere(new Vec3(0,0.2,-0.8), 0.15, new Vec3(0,0,1)),  // Blue sphere
-    new Sphere(new Vec3(0,-100.5,-1), 100, new Vec3(0,1,0))   // Big green sphere
+    new Sphere(new Vec3(0, -100.5, -1), 100, new Vec3(0, 1, 0)),  // Big green sphere
+    new Sphere(new Vec3(-0.4,0,-1.3), 0.35, new Vec3(1,0,1)) //vec3(xyz) scale Vec3(RGB)
 );
 
 let pseudo = Math.random()
@@ -45,7 +49,8 @@ for (let i = 0; i < imageWidth; i++)
         }
 
         colour = colour.scale(1/samples)
-        let gammaCor = new Vec3(Math.pow(colour.x,1/(2.2)), Math.pow(colour.y,1/(2.2)), Math.pow(colour.z,1/(2.2)))
+        let gammaCor = new Vec3(Math.pow(colour.x, 1 / (2.2)), Math.pow(colour.y, 1 / (2.2)), Math.pow(colour.z, 1 / (2.2)))
+        
         colour = gammaCor.scale(255)
 
         setPixel(i,j,colour)

@@ -1,6 +1,5 @@
 import { Vec3 } from './Vec3.js'
-import { spheres } from './Main.js'
-import { lightDirection, negLightDirection, camPosition } from './Main.js'
+import { lightDirection, negLightDirection, camPosition, specIntensity, shadowIntensity, spheres } from './Main.js'
 // Ray which has an origin and direction, both are Vec3s
 export class Ray
 {
@@ -87,7 +86,7 @@ export function rayColour(ray)
     
     let reflectLight = lightDirection.minus(castResult.normal.scale(2 * castResult.normal.dot(lightDirection)))
     let viewDir = camPosition.minus(castResult.position)
-    let specLight = Math.pow(Math.max(reflectLight.dot(viewDir), 0),4) * 0.8
+    let specLight = Math.pow(Math.max(reflectLight.dot(viewDir), 0),specIntensity) * 0.8
 
     let shadow = traceRay(new Ray(castResult.position, negLightDirection))
 
@@ -95,7 +94,7 @@ export function rayColour(ray)
     let diffuse = Math.max(castResult.normal.dot(negLightDirection), 0)
     let colour = albedo.scale(0.05 + diffuse + specLight)
 
-    if (shadow.t > 0) colour = colour.scale(0.4)
+    if (shadow.t > 0) colour = colour.scale(shadowIntensity)
     return colour
 }
 
