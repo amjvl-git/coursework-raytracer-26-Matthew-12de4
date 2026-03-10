@@ -10,7 +10,7 @@ let aspectRatio = document.getElementById("canvas").height / document.getElement
 let viewportWidth = 2
 let viewportHeight = viewportWidth * aspectRatio
 let focalLength = 1.0
-let samples = 50
+let samples = 1
 
 export let camPosition = new Vec3(0, 0, 0)
 let horizontal = new Vec3(viewportWidth, 0, 0)
@@ -23,6 +23,9 @@ export let negLightDirection = new Vec3(-lightDirection.x, -lightDirection.y, -l
 export let specIntensity = 4
 export let shadowIntensity = 0.4
 
+const slider = document.getElementById("Val")
+const xyz = document.getElementById("xyz")
+
 export const spheres = new Array(
     new Sphere(new Vec3(0,0,-1), 0.3, new Vec3(1,0,0)),       // Red sphere
     new Sphere(new Vec3(0,0.2,-0.8), 0.15, new Vec3(0,0,1)),  // Blue sphere
@@ -30,29 +33,74 @@ export const spheres = new Array(
     new Sphere(new Vec3(-0.4,0,-1.3), 0.35, new Vec3(1,0,1)) //vec3(xyz) scale Vec3(RGB)
 );
 
-let pseudo = Math.random()
 
-for (let i = 0; i < imageWidth; i++)
-{
-    for (let j = 0; j <= imageHeight; j++)
-    {
-        let colour = new Vec3(0, 0, 0)
-        for (let k = 0; k < samples; k++){
-            let u = i / (imageWidth - 1)
-            let v = j / (imageHeight - 1)
-            
-            let dir = lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition)
-            dir = dir.add(new Vec3(pseudo/imageWidth, pseudo/imageHeight, 0))
-            let ray = new Ray(camPosition, dir)
+
+function render() {
+    let pseudo = Math.random()
     
-            colour = colour.add(rayColour(ray))
+    for (let i = 0; i < imageWidth; i++)
+        {
+            for (let j = 0; j <= imageHeight; j++)
+                {
+                    let colour = new Vec3(0, 0, 0)
+                    for (let k = 0; k < samples; k++){
+                let u = i / (imageWidth - 1)
+                let v = j / (imageHeight - 1)
+                
+                let dir = lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition)
+                dir = dir.add(new Vec3(pseudo/imageWidth, pseudo/imageHeight, 0))
+                let ray = new Ray(camPosition, dir)
+                
+                colour = colour.add(rayColour(ray))
+            }
+            
+            colour = colour.scale(1/samples)
+            let gammaCor = new Vec3(Math.pow(colour.x, 1 / (2.2)), Math.pow(colour.y, 1 / (2.2)), Math.pow(colour.z, 1 / (2.2)))
+            
+            colour = gammaCor.scale(255)
+            
+            setPixel(i,j,colour)
         }
-
-        colour = colour.scale(1/samples)
-        let gammaCor = new Vec3(Math.pow(colour.x, 1 / (2.2)), Math.pow(colour.y, 1 / (2.2)), Math.pow(colour.z, 1 / (2.2)))
-        
-        colour = gammaCor.scale(255)
-
-        setPixel(i,j,colour)
     }
 }
+render()
+
+let x = 0
+let y = 0
+let z = -1
+slider.oninput = function () {
+    const data = new FormData(xyz)
+    let output
+    
+    for (const entry of data) {
+        output = entry[1]
+    }
+    switch (output) {
+        case "x":
+            x = this.value
+            break;
+        case "y":
+            y = this.value
+            break
+        case "z":
+            z = this.value
+            break
+    
+        default:
+            break;
+    }
+    console.log(output);
+    
+    spheres[0] = new Sphere(new Vec3(x, y, z), 0.3, new Vec3(1, 0, 0))
+    render()
+}
+
+window.addEventListener(reload)
+// function addSphere() {
+//     spheres.push(new Sphere(new Vec3(0, 0, -1), 0.3, new Vec3(1, 0, 0)))
+//     render()
+// }
+// function removeSphere() {
+//     spheres.pop()
+//     render()
+// }
