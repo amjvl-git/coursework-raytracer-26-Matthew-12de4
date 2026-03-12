@@ -1,4 +1,4 @@
-export function drawScene(gl, programInfo, buffers) {
+export function drawScene(gl, programInfo, buffers, cubeRoation) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.clearDepth(1.0)
     gl.enable(gl.DEPTH_TEST)
@@ -22,9 +22,31 @@ export function drawScene(gl, programInfo, buffers) {
         [-0.0, 0.0, -6.0]
     )
 
+    mat4.rotate(
+        modelViewMatrix,
+        modelViewMatrix,
+        cubeRoation,
+        [0, 0, 1]
+    )
+    mat4.rotate(
+        modelViewMatrix,
+        modelViewMatrix,
+        cubeRoation * 0.7,
+        [0, 1, 0]
+    )
+    mat4.rotate(
+        modelViewMatrix,
+        modelViewMatrix,
+        cubeRoation * 0.3,
+        [1, 0, 0]
+    )
+
     setPositionAttribute(gl, buffers, programInfo)
 
-    setColorAttribute(gl, buffers, programInfo)
+    //setColorAttribute(gl, buffers, programInfo)
+    setTextureAttribute(gl, buffers, programInfo)
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices)
 
     gl.useProgram(programInfo.program)
 
@@ -38,15 +60,22 @@ export function drawScene(gl, programInfo, buffers) {
         false,
         modelViewMatrix,
     )
+
+    gl.activeTexture(gl.TEXTURE0)
+    gl.bindTexture(gl.TEXTURE_2D.texture)
+    
+    gl.uniform1i(programInfo.uniformLocations.uSampler, 0)
+
     {
+        const vertexCount = 36
+        const type = gl.UNSIGNED_SHORT
         const offset = 0
-        const vertexCount = 4
-        gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount)
+        gl.drawElements(gl.TRIANGLES, vertexCount, type, offset)
     }
 }
 
 function setPositionAttribute(gl, buffers, programInfo) {
-    const numComponents = 2
+    const numComponents = 3
     const type = gl.FLOAT
     const normalize = false
     const stride = 0
@@ -81,5 +110,24 @@ function setColorAttribute(gl, buffers, programInfo) {
         offset,
     )
     gl.enableVertexAttribArray(programInfo.attribLocations.vertexColor)
+}
+
+function setTextureAttribute(gl, buffers, programInfo) {
+    const num = 2
+    const type = gl.FLOAT
+    const normalize = false
+    const stride = 0
+    const offset = 0
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord)
+    gl.vertexAttribPointer(
+        programInfo.attribLocations.textureCoord,
+        num,
+        type,
+        normalize,
+        stride,
+        offset,
+    )
+    gl.enableVertexAttribArray(programInfo.attribLocations.textureCoord)
 }
 

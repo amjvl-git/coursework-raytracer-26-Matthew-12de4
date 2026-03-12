@@ -40,14 +40,14 @@ function render() {
                 {
                     let colour = new Vec3(0, 0, 0)
                     for (let k = 0; k < samples; k++){
-                let u = i / (imageWidth - 1)
-                let v = j / (imageHeight - 1)
-                
-                let dir = lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition)
-                dir = dir.add(new Vec3(pseudo/imageWidth, pseudo/imageHeight, 0))
-                let ray = new Ray(camPosition, dir)
-                
-                colour = colour.add(rayColour(ray))
+                        let u = i / (imageWidth - 1)
+                        let v = j / (imageHeight - 1)
+
+                        let dir = lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition)
+                        dir = dir.add(new Vec3(pseudo/imageWidth, pseudo/imageHeight, 0))
+                        let ray = new Ray(camPosition, dir)
+
+                        colour = colour.add(rayColour(ray))
             }
             colour = colour.scale(1/samples)
                 if (gammaCorenabled) {
