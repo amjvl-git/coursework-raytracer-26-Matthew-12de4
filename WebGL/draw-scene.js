@@ -1,4 +1,4 @@
-export function drawScene(gl, programInfo, buffers, texture, cubeRoation) {
+export function drawScene(gl, programInfo, buffers, texture, cubeRoation, coloured) {
     gl.clearColor(0.0, 0.0, 0.0, 1.0)
     gl.clearDepth(1.0)
     gl.enable(gl.DEPTH_TEST)
@@ -47,7 +47,7 @@ export function drawScene(gl, programInfo, buffers, texture, cubeRoation) {
 
     setPositionAttribute(gl, buffers, programInfo)
 
-    //setColorAttribute(gl, buffers, programInfo)
+    setColorAttribute(gl, buffers, programInfo)
     setTextureAttribute(gl, buffers, programInfo)
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices)
@@ -76,6 +76,8 @@ export function drawScene(gl, programInfo, buffers, texture, cubeRoation) {
     gl.bindTexture(gl.TEXTURE_2D, texture)
     
     gl.uniform1i(programInfo.uniformLocations.uSampler, 0)
+
+    gl.uniform1i(programInfo.uniformLocations.useColour, coloured)
 
     {
         const vertexCount = 36

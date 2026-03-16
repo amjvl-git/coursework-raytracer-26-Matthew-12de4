@@ -5,7 +5,7 @@ import { fsSource } from "./fragmentShader.js"
 
 let cubeRoation = 0.0
 let deltaTime = 0
-
+let usecolor = 0
 main()
 function main() {
     const canvas = document.getElementById("canvas")
@@ -27,17 +27,19 @@ function main() {
         attribLocations: {
             vertexPositions: gl.getAttribLocation(shaderProgram, "aVertexPosition"),
             vertexNormal: gl.getAttribLocation(shaderProgram, "aVertexNormal"),
-            //vertexColor: gl.getAttribLocation(shaderProgram, "aVertexColor"),
+            vertexColor: gl.getAttribLocation(shaderProgram, "aVertexColor"),
             textureCoord: gl.getAttribLocation(shaderProgram, "aTextureCoord"),
         },
         uniformLocations: {
             projectionMatrix: gl.getUniformLocation(shaderProgram, "uProjectionMatrix"),
             modelViewMatrix: gl.getUniformLocation(shaderProgram, "uModelViewMatrix"),
             normalMatrix: gl.getUniformLocation(shaderProgram, "uNormalMatrix"),
-            uSampler: gl.getUniformLocation(shaderProgram, "uSampler")
+            uSampler: gl.getUniformLocation(shaderProgram, "uSampler"),
+            useColour: gl.getUniformLocation(shaderProgram, "useColour"),
         }
     }
 
+    
     const buffers = initBuffers(gl)
 
     const texture = loadTexture(gl, "cubetexture.png")
@@ -49,7 +51,7 @@ function main() {
         now *= 0.001
         deltaTime = now - then
         then = now
-        drawScene(gl, programInfo, buffers, texture, cubeRoation)
+        drawScene(gl, programInfo, buffers, texture, cubeRoation, usecolor)
         cubeRoation -= deltaTime
 
         requestAnimationFrame(render)
@@ -139,3 +141,9 @@ function loadTexture(gl, url) {
 function isPowerOf2(value) {
     return (value & (value - 1)) === 0
 }
+const colored = document.getElementById("iscolour")
+
+colored.addEventListener("change", ev => {
+    if (colored.checked) usecolor = 1
+    else usecolor = 0
+})

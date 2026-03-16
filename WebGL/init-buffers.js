@@ -1,7 +1,7 @@
 export function initBuffers(gl) {
     const positionBuffer = initPositionBuffer(gl)
     const normalBuffer = initNormalBuffer(gl)
-    //const colorBuffer = initColorBuffer(gl)
+    const colorBuffer = initColorBuffer(gl)
     const textureCoordBuffer = initTextureBuffer(gl)
     const indexBuffer = initIndexBuffer(gl)
 
@@ -9,6 +9,7 @@ export function initBuffers(gl) {
         position: positionBuffer,
         normal: normalBuffer,
         textureCoord: textureCoordBuffer,
+        color: colorBuffer,
         indices: indexBuffer,
     }
 }
