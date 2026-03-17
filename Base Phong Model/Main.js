@@ -32,7 +32,6 @@ export const spheres = new Array(
 );
 
 function render() {
-    let pseudo = Math.random()
     
     for (let i = 0; i < imageWidth; i++) {
 
@@ -41,6 +40,8 @@ function render() {
             let colour = new Vec3(0, 0, 0)
 
             for (let k = 0; k < samples; k++){
+                let pseudo = Math.random()
+
                 let u = i / (imageWidth - 1)
                 let v = j / (imageHeight - 1)
 
