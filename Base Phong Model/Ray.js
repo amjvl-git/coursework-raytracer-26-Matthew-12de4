@@ -88,7 +88,7 @@ export function rayColour(ray)
     let viewDir = camPosition.minus(castResult.position)
     let specLight = Math.pow(Math.max(reflectLight.dot(viewDir), 0),specIntensity) * 0.8
 
-    let shadow = traceRay(new Ray(castResult.position, negLightDirection))
+    let shadow = traceRay(new Ray(castResult.position.add(castResult.normal.scale(0.05)), negLightDirection))
 
     let albedo = spheres[castResult.sphereIndex].colour
     let diffuse = Math.max(castResult.normal.dot(negLightDirection), 0)

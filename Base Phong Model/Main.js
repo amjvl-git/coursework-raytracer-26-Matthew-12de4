@@ -34,32 +34,31 @@ export const spheres = new Array(
 function render() {
     let pseudo = Math.random()
     
-    for (let i = 0; i < imageWidth; i++)
-        {
-            for (let j = 0; j <= imageHeight; j++)
-                {
-                    let colour = new Vec3(0, 0, 0)
-                    for (let k = 0; k < samples; k++){
-                        let u = i / (imageWidth - 1)
-                        let v = j / (imageHeight - 1)
+    for (let i = 0; i < imageWidth; i++) {
 
-                        let dir = lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition)
-                        dir = dir.add(new Vec3(pseudo/imageWidth, pseudo/imageHeight, 0))
-                        let ray = new Ray(camPosition, dir)
+        for (let j = 0; j <= imageHeight; j++) {
 
-                        colour = colour.add(rayColour(ray))
+            let colour = new Vec3(0, 0, 0)
+
+            for (let k = 0; k < samples; k++){
+                let u = i / (imageWidth - 1)
+                let v = j / (imageHeight - 1)
+
+                let dir = lowerLeftCorner.add(horizontal.scale(u)).add(vertical.scale(v)).minus(camPosition)
+                dir = dir.add(new Vec3(pseudo/imageWidth, pseudo/imageHeight, 0))
+                let ray = new Ray(camPosition, dir)
+
+                colour = colour.add(rayColour(ray))
             }
-            colour = colour.scale(1/samples)
-                if (gammaCorenabled) {
-                    let gammaCor = new Vec3(Math.pow(colour.x, 1 / (2.2)), Math.pow(colour.y, 1 / (2.2)), Math.pow(colour.z, 1 / (2.2)))
-                    colour = gammaCor.scale(255)
-                }
-                else {
-                    colour = colour.scale(255)
-                }
+            colour = colour.scale(1 / samples)
             
-            
-            
+            if (gammaCorenabled) {
+                let gammaCor = new Vec3(Math.pow(colour.x, 1 / (2.2)), Math.pow(colour.y, 1 / (2.2)), Math.pow(colour.z, 1 / (2.2)))
+                colour = gammaCor.scale(255)
+            }
+            else {
+                colour = colour.scale(255)
+            }
             setPixel(i,j,colour)
         }
     }
