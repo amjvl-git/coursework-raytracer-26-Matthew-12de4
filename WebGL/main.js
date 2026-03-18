@@ -4,17 +4,25 @@ import { vsSource } from "./vertexShader.js"
 import { fsSource } from "./fragmentShader.js"
 
 export let topRGB, bottomRGB, frontRGB, backRGB, leftRGB, rightRGB
+let hexFrontRGB = "#ffffff"
+let hexBackRGB = "#ff0000"
+let hexTopRGB = "#00ff00"
+let hexBottomRGB = "#0000ff"
+let hexRightRGB = "#ffff00"
+let hexLeftRGB = "#ff00ff"
 
-frontRGB = [1.0, 1.0, 1.0, 1.0]
-backRGB = [1.0, 0.0, 0.0, 1.0]
-topRGB = [0.0, 1.0, 0.0, 1.0]
-bottomRGB = [0.0, 0.0, 1.0, 1.0]
-rightRGB = [1.0, 1.0, 0.0, 1.0]
-leftRGB = [1.0, 0.0, 1.0, 1.0]
+frontRGB = [Number((1 / 255 * hexToRgb(hexFrontRGB).r).toFixed(2)), Number((1 / 255 * hexToRgb(hexFrontRGB).g).toFixed(2)), Number((1 / 255 * hexToRgb(hexFrontRGB).b).toFixed(2)), 1]
+backRGB = [Number((1 / 255 * hexToRgb(hexBackRGB).r).toFixed(2)), Number((1 / 255 * hexToRgb(hexBackRGB).g).toFixed(2)), Number((1 / 255 * hexToRgb(hexBackRGB).b).toFixed(2)), 1]
+topRGB = [Number((1 / 255 * hexToRgb(hexTopRGB).r).toFixed(2)), Number((1 / 255 * hexToRgb(hexTopRGB).g).toFixed(2)), Number((1 / 255 * hexToRgb(hexTopRGB).b).toFixed(2)), 1]
+bottomRGB = [Number((1 / 255 * hexToRgb(hexBottomRGB).r).toFixed(2)), Number((1 / 255 * hexToRgb(hexBottomRGB).g).toFixed(2)), Number((1 / 255 * hexToRgb(hexBottomRGB).b).toFixed(2)), 1]
+rightRGB = [Number((1 / 255 * hexToRgb(hexRightRGB).r).toFixed(2)), Number((1 / 255 * hexToRgb(hexRightRGB).g).toFixed(2)), Number((1 / 255 * hexToRgb(hexRightRGB).b).toFixed(2)), 1]
+leftRGB = [Number((1 / 255 * hexToRgb(hexLeftRGB).r).toFixed(2)), Number((1 / 255 * hexToRgb(hexLeftRGB).g).toFixed(2)), Number((1 / 255 * hexToRgb(hexLeftRGB).b).toFixed(2)), 1]
 
+let reset = false
 let cubeRoation = 0.0
 let deltaTime = 0
 let usecolor = 0
+let then = 0
 main()
 function main() {
     const canvas = document.getElementById("canvas")
@@ -54,9 +62,13 @@ function main() {
     const texture = loadTexture(gl, "cubetexture.png")
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true)
 
-    let then = 0
+    
 
     function render(now) {
+        if (reset) {
+            reset = false
+            return
+        }
         now *= 0.001
         deltaTime = now - then
         then = now
@@ -153,38 +165,60 @@ function isPowerOf2(value) {
 const colored = document.getElementById("iscolour")
 const faceRGB = document.getElementById("RGB")
 const faceSel = document.getElementById("faceSel")
+const resetbtn = document.getElementById("reset")
+let hexColour = "#ffffff"
+const colourBox = document.getElementById("colorBox")
 
 let currentFaceSel
 
+resetbtn.onclick = function () {
+    window.location.reload(true);
+    return false
+}
+
 colored.addEventListener("change", ev => {
-    if (colored.checked) usecolor = 1
-    else usecolor = 0
+    if (colored.checked) {
+        usecolor = 1
+        document.getElementById("colourArea").style.display = 'block'
+    }
+    else {
+        usecolor = 0
+        document.getElementById("colourArea").style.display='none'
+    }
 })
 
 faceRGB.addEventListener("change", function (ev) {
     let colour = ev.target.value
     switch (currentFaceSel) {
-        case "t":
-            topRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
-            break
-        case "bo":
-            bottomRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
-            break
         case "f":
             frontRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            hexFrontRGB = colour
             break
         case "ba":
             backRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            hexBackRGB = colour
+            break
+        case "t":
+            topRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            hexTopRGB = colour
+            break
+        case "bo":
+            bottomRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            hexBottomRGB = colour
             break
         case "l":
             leftRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            hexLeftRGB = colour
             break
         case "r":
             rightRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            hexRightRGB = colour
             break
         default:
             break
     }
+    reset = true
+    main()
 })
 
 faceSel.oninput = function () {
@@ -195,30 +229,35 @@ faceSel.oninput = function () {
         output = entry[1]
     }
     
-    
     switch (output) {
-        case "top":
-            currentFaceSel = "t"
-            break;
-        case "bottom":
-            currentFaceSel = "bo"
-            break
         case "front":
+            //faceRGB.value = hexFrontRGB
+            colourBox.style.backgroundColor=hexFrontRGB
             currentFaceSel = "f"
             break
         case "back":
+            colourBox.style.backgroundColor=hexBackRGB
             currentFaceSel = "ba"
             break
+        case "top":
+            colourBox.style.backgroundColor=hexTopRGB
+            currentFaceSel = "t"
+            break;
+        case "bottom":
+            colourBox.style.backgroundColor=hexBottomRGB
+            currentFaceSel = "bo"
+            break
         case "left":
+            colourBox.style.backgroundColor=hexLeftRGB
             currentFaceSel = "l"
             break
         case "right":
+            colourBox.style.backgroundColor=hexRightRGB
             currentFaceSel = "r"
             break
         default:
             break;
     }
-    console.log(currentFaceSel);
 }
 
 function hexToRgb(hex) {
