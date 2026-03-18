@@ -23,6 +23,9 @@ let cubeRoation = 0.0
 let deltaTime = 0
 let usecolor = 0
 let then = 0
+
+let rotationSpeed = 0.001
+
 main()
 function main() {
     const canvas = document.getElementById("canvas")
@@ -69,7 +72,7 @@ function main() {
             reset = false
             return
         }
-        now *= 0.001
+        now *= rotationSpeed
         deltaTime = now - then
         then = now
         drawScene(gl, programInfo, buffers, texture, cubeRoation, usecolor)
@@ -166,14 +169,36 @@ const colored = document.getElementById("iscolour")
 const faceRGB = document.getElementById("RGB")
 const faceSel = document.getElementById("faceSel")
 const resetbtn = document.getElementById("reset")
-let hexColour = "#ffffff"
 const colourBox = document.getElementById("colorBox")
+const rotationSlider = document.getElementById("rotationSpeed")
+const playpause = document.getElementById("playpause")
+let paused = false
 
 let currentFaceSel
+
+playpause.onclick = function () {
+    if (paused) {
+        paused = false
+        reset = true
+        console.log(reset);
+        
+    }
+    else {
+        paused = true
+        main()
+        console.log(reset);
+    }
+}
 
 resetbtn.onclick = function () {
     window.location.reload(true);
     return false
+}
+
+rotationSlider.oninput = function () {
+    rotationSpeed = this.value / 1000
+    console.log(rotationSpeed);
+    
 }
 
 colored.addEventListener("change", ev => {
