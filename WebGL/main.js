@@ -3,6 +3,15 @@ import { drawScene } from "./draw-scene.js"
 import { vsSource } from "./vertexShader.js"
 import { fsSource } from "./fragmentShader.js"
 
+export let topRGB, bottomRGB, frontRGB, backRGB, leftRGB, rightRGB
+
+frontRGB = [1.0, 1.0, 1.0, 1.0]
+backRGB = [1.0, 0.0, 0.0, 1.0]
+topRGB = [0.0, 1.0, 0.0, 1.0]
+bottomRGB = [0.0, 0.0, 1.0, 1.0]
+rightRGB = [1.0, 1.0, 0.0, 1.0]
+leftRGB = [1.0, 0.0, 1.0, 1.0]
+
 let cubeRoation = 0.0
 let deltaTime = 0
 let usecolor = 0
@@ -142,8 +151,81 @@ function isPowerOf2(value) {
     return (value & (value - 1)) === 0
 }
 const colored = document.getElementById("iscolour")
+const faceRGB = document.getElementById("RGB")
+const faceSel = document.getElementById("faceSel")
+
+let currentFaceSel
 
 colored.addEventListener("change", ev => {
     if (colored.checked) usecolor = 1
     else usecolor = 0
 })
+
+faceRGB.addEventListener("change", function (ev) {
+    let colour = ev.target.value
+    switch (currentFaceSel) {
+        case "t":
+            topRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            break
+        case "bo":
+            bottomRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            break
+        case "f":
+            frontRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            break
+        case "ba":
+            backRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            break
+        case "l":
+            leftRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            break
+        case "r":
+            rightRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
+            break
+        default:
+            break
+    }
+})
+
+faceSel.oninput = function () {
+    const data = new FormData(faceSel)
+    let output
+    
+    for (const entry of data) {
+        output = entry[1]
+    }
+    
+    
+    switch (output) {
+        case "top":
+            currentFaceSel = "t"
+            break;
+        case "bottom":
+            currentFaceSel = "bo"
+            break
+        case "front":
+            currentFaceSel = "f"
+            break
+        case "back":
+            currentFaceSel = "ba"
+            break
+        case "left":
+            currentFaceSel = "l"
+            break
+        case "right":
+            currentFaceSel = "r"
+            break
+        default:
+            break;
+    }
+    console.log(currentFaceSel);
+}
+
+function hexToRgb(hex) {
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+    r: parseInt(result[1], 16),
+    g: parseInt(result[2], 16),
+    b: parseInt(result[3], 16)
+    } : null;
+}

@@ -1,3 +1,6 @@
+import { frontRGB, backRGB, topRGB, bottomRGB, rightRGB, leftRGB }from "./main.js"
+
+
 export function initBuffers(gl) {
     const positionBuffer = initPositionBuffer(gl)
     const normalBuffer = initNormalBuffer(gl)
@@ -46,12 +49,12 @@ function initPositionBuffer(gl) {
 
 function initColorBuffer(gl) {
     const faceColors = [
-        [1.0, 1.0, 1.0, 1.0], // Front face: white
-        [1.0, 0.0, 0.0, 1.0], // Back face: red
-        [0.0, 1.0, 0.0, 1.0], // Top face: green
-        [0.0, 0.0, 1.0, 1.0], // Bottom face: blue
-        [1.0, 1.0, 0.0, 1.0], // Right face: yellow
-        [1.0, 0.0, 1.0, 1.0], // Left face: purple
+        frontRGB, // Front face: white
+        backRGB, // Back face: red
+        topRGB, // Top face: green
+        bottomRGB, // Bottom face: blue
+        rightRGB, // Right face: yellow
+        leftRGB, // Left face: purple
     ]
 
     let colors = []
