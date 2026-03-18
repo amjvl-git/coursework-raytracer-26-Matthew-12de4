@@ -1,19 +1,21 @@
-export const fsSource = /*glsl*/`
-    varying lowp vec4 vColor;
-    varying highp vec2 vTextureCoord;
-    varying highp vec3 vLighting;
-    uniform lowp int useColour;
+export const fsSource = /*glsl*/`#version 300 es
+    precision mediump float;
+    in vec4 vColor;
+    in vec2 vTextureCoord;
+    in vec3 vLighting;
+    uniform int useColour;
     uniform sampler2D uSampler;
+    out vec4 FragColor;
 
     void main(void) {
-        highp vec4 texelColor = texture2D(uSampler, vTextureCoord);
+        vec4 texelColor = texture(uSampler, vTextureCoord);
 
         if (useColour >= 1) {
-            gl_FragColor = vec4(vColor.rgb * vLighting, vColor.a);
+            FragColor = vec4(vColor.rgb * vLighting, vColor.a);
             return;
         }
         else if (useColour < 1) {
-            gl_FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
+            FragColor = vec4(texelColor.rgb * vLighting, texelColor.a);
             return;
         }
     }

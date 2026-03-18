@@ -26,7 +26,7 @@ let then = 0
 main()
 function main() {
     const canvas = document.getElementById("canvas")
-    const gl = canvas.getContext("webgl")
+    const gl = canvas.getContext("webgl2")
 
     if (gl == null) {
         alert("WebGL is not supported on this browser")
@@ -193,26 +193,32 @@ faceRGB.addEventListener("change", function (ev) {
         case "f":
             frontRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
             hexFrontRGB = colour
+            colourBox.style.backgroundColor = colour
             break
         case "ba":
             backRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
             hexBackRGB = colour
+            colourBox.style.backgroundColor = colour
             break
         case "t":
             topRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
             hexTopRGB = colour
+            colourBox.style.backgroundColor = colour
             break
         case "bo":
             bottomRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
             hexBottomRGB = colour
+            colourBox.style.backgroundColor = colour
             break
         case "l":
             leftRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
             hexLeftRGB = colour
+            colourBox.style.backgroundColor = colour
             break
         case "r":
             rightRGB = [(1 / 255 * hexToRgb(colour).r).toFixed(2), (1 / 255 * hexToRgb(colour).g).toFixed(2), (1 / 255 * hexToRgb(colour).b).toFixed(2), 1]
             hexRightRGB = colour
+            colourBox.style.backgroundColor = colour
             break
         default:
             break
@@ -231,7 +237,6 @@ faceSel.oninput = function () {
     
     switch (output) {
         case "front":
-            //faceRGB.value = hexFrontRGB
             colourBox.style.backgroundColor=hexFrontRGB
             currentFaceSel = "f"
             break

@@ -1,18 +1,19 @@
-export const vsSource = /*glsl*/`
-    attribute vec4 aVertexPosition;
-    attribute vec3 aVertexNormal;
-    attribute vec2 aTextureCoord;
-    attribute vec4 aVertexColor;
+export const vsSource = /*glsl*/`#version 300 es
+    precision mediump float;
+    in vec4 aVertexPosition;
+    in vec3 aVertexNormal;
+    in vec2 aTextureCoord;
+    in vec4 aVertexColor;
 
     uniform mat4 uNormalMatrix;
     uniform mat4 uModelViewMatrix;
     uniform mat4 uProjectionMatrix;
     //uniform float useColour;
 
-    varying highp vec2 vTextureCoord;
-    varying highp vec3 vLighting;
-    varying lowp vec4 vColor;
-    varying lowp float colourUsed;
+    out vec2 vTextureCoord;
+    out vec3 vLighting;
+    out vec4 vColor;
+    out float colourUsed;
 
     void main(void) {
         gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
@@ -22,13 +23,13 @@ export const vsSource = /*glsl*/`
 
         // Apply lighting effect
 
-        highp vec3 ambientLight = vec3(0.3, 0.3, 0.3);
-        highp vec3 directionalLightColor = vec3(1, 1, 1);
-        highp vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
+        vec3 ambientLight = vec3(0.3, 0.3, 0.3);
+        vec3 directionalLightColor = vec3(1, 1, 1);
+        vec3 directionalVector = normalize(vec3(0.85, 0.8, 0.75));
 
-        highp vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);
+        vec4 transformedNormal = uNormalMatrix * vec4(aVertexNormal, 1.0);
 
-        highp float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
+        float directional = max(dot(transformedNormal.xyz, directionalVector), 0.0);
 
         vColor = aVertexColor;
 
