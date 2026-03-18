@@ -5,10 +5,8 @@ export const vsSource = /*glsl*/`#version 300 es
     in vec2 aTextureCoord;
     in vec4 aVertexColor;
 
-    
     uniform mat4 uModelViewMatrix;
     uniform mat4 uProjectionMatrix;
-    //uniform float useColour;
 
     out vec2 vTextureCoord;
     out vec4 vColor;
