@@ -70,6 +70,8 @@ function main() {
     function render(now) {
         if (reset) {
             reset = false
+            console.log();
+            
             return
         }
         now *= rotationSpeed
@@ -179,13 +181,13 @@ let currentFaceSel
 playpause.onclick = function () {
     if (paused) {
         paused = false
-        reset = true
+        main()
         console.log(reset);
         
     }
     else {
         paused = true
-        main()
+        reset = true
         console.log(reset);
     }
 }
