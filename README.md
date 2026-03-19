@@ -36,4 +36,4 @@
 ### Examples:
 ![Ray Tracer Example](./Ray%20Tracer%20Example.png)
 ![WebGL Example 1](./WebGL%20Example%201.png)
-![WebGL Example 1](./WebGL%20Example%202.png)
+![WebGL Example 2](./WebGl%20Example%202.png)
